@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5E64B667-6E02-4260-8AE4-3A8B93AEA115}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IA_PA2014</RootNamespace>
+    <AssemblyName>IA_PA2014</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>IA.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\dbConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\dbConfig.Designer.cs">
+      <DependentUpon>dbConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\EmpenhoReciboForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\EmpenhoReciboForm.Designer.cs">
+      <DependentUpon>EmpenhoReciboForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\FormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\FormBase.Designer.cs">
+      <DependentUpon>FormBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\GerarArquivo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\GerarArquivo.Designer.cs">
+      <DependentUpon>GerarArquivo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\NaoPadraoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\NaoPadraoForm.Designer.cs">
+      <DependentUpon>NaoPadraoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\OrdenadorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\OrdenadorForm.Designer.cs">
+      <DependentUpon>OrdenadorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\ParearForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ParearForm.Designer.cs">
+      <DependentUpon>ParearForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\ParearLancamentoFolhaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ParearLancamentoFolhaForm.Designer.cs">
+      <DependentUpon>ParearLancamentoFolhaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\Splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\Splash.Designer.cs">
+      <DependentUpon>Splash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="forms\ValidaReciboForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ValidaReciboForm.Designer.cs">
+      <DependentUpon>ValidaReciboForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="modelo\Contabilidade.cs" />
+    <Compile Include="modelo\orcamento.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="utils\ConexaoDB.cs" />
+    <Compile Include="utils\FuncoesUteis.cs" />
+    <Compile Include="utils\MessageExcept.cs" />
+    <Compile Include="utils\Prompt.cs" />
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\dbConfig.resx">
+      <DependentUpon>dbConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\EmpenhoReciboForm.resx">
+      <DependentUpon>EmpenhoReciboForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\FormBase.resx">
+      <DependentUpon>FormBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\GerarArquivo.resx">
+      <DependentUpon>GerarArquivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\NaoPadraoForm.resx">
+      <DependentUpon>NaoPadraoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\OrdenadorForm.resx">
+      <DependentUpon>OrdenadorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ParearForm.resx">
+      <DependentUpon>ParearForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ParearLancamentoFolhaForm.resx">
+      <DependentUpon>ParearLancamentoFolhaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\Splash.resx">
+      <DependentUpon>Splash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="forms\ValidaReciboForm.resx">
+      <DependentUpon>ValidaReciboForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="IA.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
