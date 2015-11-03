@@ -52,6 +52,7 @@
             this.cbEvento = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.gridPareados = new System.Windows.Forms.DataGridView();
+            this.ckNatureza = new System.Windows.Forms.CheckBox();
             this.s.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridPareados)).BeginInit();
@@ -59,6 +60,7 @@
             // 
             // s
             // 
+            this.s.Controls.Add(this.ckNatureza);
             this.s.Controls.Add(this.label9);
             this.s.Controls.Add(this.cbOperacao);
             this.s.Controls.Add(this.cbNivelContabil);
@@ -89,7 +91,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(393, 89);
+            this.label9.Location = new System.Drawing.Point(660, 89);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(78, 13);
             this.label9.TabIndex = 22;
@@ -102,17 +104,18 @@
             "0 - Não se Aplica",
             "C - Crédito",
             "D - Debito"});
-            this.cbOperacao.Location = new System.Drawing.Point(396, 103);
+            this.cbOperacao.Location = new System.Drawing.Point(663, 103);
             this.cbOperacao.Name = "cbOperacao";
             this.cbOperacao.Size = new System.Drawing.Size(251, 21);
             this.cbOperacao.TabIndex = 21;
+            this.cbOperacao.Text = "0 - Não se Aplica";
             // 
             // cbNivelContabil
             // 
             this.cbNivelContabil.FormattingEnabled = true;
             this.cbNivelContabil.Location = new System.Drawing.Point(15, 103);
             this.cbNivelContabil.Name = "cbNivelContabil";
-            this.cbNivelContabil.Size = new System.Drawing.Size(347, 21);
+            this.cbNivelContabil.Size = new System.Drawing.Size(632, 21);
             this.cbNivelContabil.TabIndex = 20;
             // 
             // label8
@@ -208,7 +211,7 @@
             // cbHistorico
             // 
             this.cbHistorico.FormattingEnabled = true;
-            this.cbHistorico.Location = new System.Drawing.Point(11, 183);
+            this.cbHistorico.Location = new System.Drawing.Point(15, 183);
             this.cbHistorico.Name = "cbHistorico";
             this.cbHistorico.Size = new System.Drawing.Size(777, 21);
             this.cbHistorico.TabIndex = 1;
@@ -268,7 +271,7 @@
             // cbEvento
             // 
             this.cbEvento.FormattingEnabled = true;
-            this.cbEvento.Location = new System.Drawing.Point(11, 143);
+            this.cbEvento.Location = new System.Drawing.Point(15, 143);
             this.cbEvento.Name = "cbEvento";
             this.cbEvento.Size = new System.Drawing.Size(777, 21);
             this.cbEvento.TabIndex = 0;
@@ -292,6 +295,16 @@
             this.gridPareados.Name = "gridPareados";
             this.gridPareados.Size = new System.Drawing.Size(916, 227);
             this.gridPareados.TabIndex = 1;
+            // 
+            // ckNatureza
+            // 
+            this.ckNatureza.AutoSize = true;
+            this.ckNatureza.Location = new System.Drawing.Point(434, 214);
+            this.ckNatureza.Name = "ckNatureza";
+            this.ckNatureza.Size = new System.Drawing.Size(318, 17);
+            this.ckNatureza.TabIndex = 23;
+            this.ckNatureza.Text = "Parear Evento/Hisotrico pata todas as Naturezas de Despeza";
+            this.ckNatureza.UseVisualStyleBackColor = true;
             // 
             // ParearForm
             // 
@@ -335,5 +348,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cbOperacao;
+        private System.Windows.Forms.CheckBox ckNatureza;
     }
 }

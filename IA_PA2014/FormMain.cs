@@ -93,5 +93,12 @@ namespace IA_PA2015
             naoPadraoForm.MdiParent = this;
             naoPadraoForm.Show();
         }
+
+        private void contaPCAContaTCMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IA_PA2014.forms.ContaAContaForm contaAContaForm = new IA_PA2014.forms.ContaAContaForm();
+            contaAContaForm.MdiParent = this;
+            contaAContaForm.Show();
+        }
     }
 }

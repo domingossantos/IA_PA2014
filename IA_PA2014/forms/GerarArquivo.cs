@@ -388,8 +388,13 @@ namespace IA_PA2015.forms
                     }
 
                     contaContabil = ajusteConta(contaContabil, rowMov["tpOperacao"].ToString());
-                    
-                    linha += contabilidade.getLancamentoPadrao(rowMov["cdEmenta"].ToString()
+
+                    if (contador == 79) {
+                        contaContabil = contaContabil;
+                    }
+
+                    linha += contabilidade.getLancamentoPadrao(rowMov["cdUnidadeGestora"].ToString()
+                                                               , rowMov["cdEmenta"].ToString()
                                                                , rowMov["idLancamento"].ToString()
                                                                , rowMov["nrAnoLancamento"].ToString()
                                                                , rowMov["cdTipoLicitacao"].ToString()

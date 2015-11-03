@@ -1,0 +1,12 @@
+CPC_sc: Data Source=WINDOWSD;Initial Catalog=E14_CPC;Persist Security Info=True;User ID=sa;Password=passwd
+CPC_bd: E14_CPC
+CPE_sc: Data Source=WINDOWSD;Initial Catalog=E14_CPE2014;Persist Security Info=True;User ID=sa;Password=passwd
+CPE_bd: E14_CPE2014
+CPI_sc: Data Source=WINDOWSD;Initial Catalog=E14_CPI2014;Persist Security Info=True;User ID=sa;Password=passwd
+CPI_bd: E14_CPI2014
+AUX_sc: Data Source=WINDOWSD;Initial Catalog=AUX_IPMC;Persist Security Info=True;User ID=sa;Password=passwd
+AUX_bd: AUX_IPMC
+PPA_sc: Data Source=WINDOWSD;Initial Catalog=E_PPA;Persist Security Info=True;User ID=sa;Password=passwd
+PPA_bd: E_PPA
+MOV_CR: 461, 462, 465
+PREFOR: FOPAG

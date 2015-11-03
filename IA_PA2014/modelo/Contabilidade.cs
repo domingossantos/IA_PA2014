@@ -454,7 +454,7 @@ namespace IA_PA2015.modelo
                 
                 sql.Append("select * ");
                 sql.Append(" from " + nmBancoAux + "..dataview_movimento_tcm m where 1 = 1 and m.cdHistoricoPadrao in(464,465)  and m.nrSequenciaSistema > 0 ");
-                sql.Append(" and SUBSTRING(m.cdNivelContabil,1,1) not in('7','8')  ");
+                sql.Append(" and SUBSTRING(m.cdNivelContabil,1,1) not in('7','8') ");
                 
                 if (tipo == 1)
                 {
@@ -473,7 +473,7 @@ namespace IA_PA2015.modelo
                     }
                 }
 
-                sql.Append(" \t order by m.nrControleFatoContabil,  m.nrSequencia desc  ");
+                sql.Append(" \t order by m.nrControleFatoContabil,  m.tpOperacao desc ");
 
                 conexao.abreBanco();
 
@@ -522,11 +522,12 @@ namespace IA_PA2015.modelo
             return recibo;
         }
 
-        public String getLancamentoPadrao(string ementa, string lancamento, string ano, string licitacao
+        public String getLancamentoPadrao(string unidade, string ementa, string lancamento, string ano, string licitacao
                                          , string operacao, string conta, string natureza
                                          , string orgao, string nmBancoAux, string nmBancoCPC)
         {
-
+            int origemConta = 0;
+           
             if (licitacao == "") {
                 licitacao = "0";
             }
@@ -535,7 +536,8 @@ namespace IA_PA2015.modelo
                 ementa = "0";
             }
 
-            String sql = "select  p.cdEvento,p.cdHistorico ,l.dsLancamento " +
+            String sql = "select  p.cdEvento,p.cdHistorico " +
+                        ",(select h.ds_historico  from " + nmBancoAux + "..AUX_HISTORICO_TCM h where h.cd_historico = p.cdHistorico) as dsHistorico" +
                         ",(select c.cdnivelcontabil from " + nmBancoCPC + "..CONTACONTABIL c where c.cdContaContabil = l.cdContaCredito) cdNivelCredito " +
                         ",(select c.cdnivelcontabil from " + nmBancoCPC + "..CONTACONTABIL c where c.cdContaContabil = l.cdContaDebito) cdNivelDebito " +
                         "	from " + nmBancoAux + "..aux_paridade_conta p " +
@@ -551,7 +553,7 @@ namespace IA_PA2015.modelo
                 sql += " and p.cdOrgao = " + orgao;
             }
             else {
-                sql += " and p.cdOrgao is null ";
+                sql += " and p.cdOrgao = 0 ";
             }
 
             if (!ementa.Equals("0")) {
@@ -564,19 +566,24 @@ namespace IA_PA2015.modelo
 
             if (!natureza.Equals("0"))
             {
-                sql += " and p.cdNaturezaDespesa = '" + licitacao +"'";
+                sql += " and p.cdNaturezaDespesa = '" + natureza +"'";
             }
-                        
            
-
             DataTable linhas = conexao.retornarDataSet(sql.ToString());
 
             String linha = "";
+            
 
 
             if (linhas.Rows.Count <= 0) {
-                sql = "";
-            
+                sql = "select  p.cdEventoCredito, p.cdEventoDebito, p.cdHistoricoCredito, cdHistoricoDebito "+
+                      ",(select h.ds_historico  from " + nmBancoAux + "..AUX_HISTORICO_TCM h where h.cd_historico = p.cdHistoricoCredito) as dsHistoricoCredito " +
+                      ",(select h.ds_historico  from " + nmBancoAux + "..AUX_HISTORICO_TCM h where h.cd_historico = p.cdHistoricoDebito) as dsHistoricoDebito " +
+                      "from " + nmBancoAux + "..AUX_PAREAR_NAO_PADRAO p " +
+                      "where p.idLancamento = "+lancamento+" and p.cdUnidadeGestora = "+unidade;
+
+                linhas = conexao.retornarDataSet(sql.ToString());
+                origemConta = 1;
             }
 
 
@@ -586,17 +593,26 @@ namespace IA_PA2015.modelo
                 DataRow dados = linhas.Rows[0];
 
                 linha = FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[1].ToString()).ToUpper(), " ", 1, 4);
-                if (operacao.Equals("C"))
-                {
-                    linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[3].ToString()).ToUpper(), " ", 1, 11);
-                }
-                else
-                {
-                    linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[4].ToString()).ToUpper(), " ", 1, 11);
-                }
+                
+                linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(conta), " ", 1, 11);
                 linha += operacao;
-                linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[1].ToString()).ToUpper(), " ", 1, 5);
-                linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[2].ToString()).ToUpper(), " ", 1, 300);
+
+                if (origemConta == 1)
+                {
+                    if (operacao.Equals("C"))
+                    {
+                        linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[2].ToString()).ToUpper(), " ", 1, 5);
+                        linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[4].ToString()).ToUpper(), " ", 1, 300);
+                    }
+                    else {
+                        linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[3].ToString()).ToUpper(), " ", 1, 5);
+                        linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[5].ToString()).ToUpper(), " ", 1, 300);
+                    }
+                }
+                else {
+                    linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[1].ToString()).ToUpper(), " ", 1, 5);
+                    linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[2].ToString()).ToUpper(), " ", 1, 300);
+                }                
             }
             else {
                 if (!lancamento.Equals("41") || !lancamento.Equals("47")) {
@@ -754,6 +770,55 @@ namespace IA_PA2015.modelo
 
             return dados;
         }
-        
+
+
+        public DataTable getContaAConta(String nmBancoAUX)
+        {
+            DataTable dados = null;
+            try
+            {
+                conexao.abreBanco();
+
+                dados = conexao.retornarDataSet("select  * from "+nmBancoAUX+"..AUX_CONTA_A_CONTA ");
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao listar Contas");
+
+            }
+
+            return dados;
+        }
+
+        public void gravaContaAConta(String nmBancoAUX,String contaPC, String contaTC) {
+            try {
+                String sql = "insert into "+nmBancoAUX+"..aux_conta_a_conta (contaPC, contaTC) values ('" + contaPC + "','" + contaTC + "')";
+
+                conexao.abreBanco();
+                conexao.executaSemRetorno(sql);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao gravar Contas");
+
+            }
+        }
+
+        public void apagaContaAConta(String nmBancoAUX, String id)
+        {
+            try
+            {
+                String sql = "delete from " + nmBancoAUX + "..aux_conta_a_conta where id = "+id;
+
+                conexao.abreBanco();
+                conexao.executaSemRetorno(sql);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao apagar Contas");
+
+            }
+        }
     }
 }

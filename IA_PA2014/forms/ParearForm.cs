@@ -73,7 +73,7 @@ namespace IA_PA2015.forms
             try
             {
                 String sql = " select 0 cdTipoLicitacao,'Sem Licitação' dsTipoLicitacao union "
-                           +"select cdTipoLicitacao,dsTipoLicitacao from " + nomeBD_CPC + "..TIPOLICITACAO "
+                           + "select cdTipoLicitacao, cast(cdTipoLicitacao as varchar(2)) +' - '+dsTipoLicitacao as dsTipoLicitacao from " + nomeBD_CPC + "..TIPOLICITACAO "
                            + " order by cdTipoLicitacao ";
 
                 con.abreBanco();
@@ -125,7 +125,7 @@ namespace IA_PA2015.forms
                 String sql = " select '0' AS cdNaturezaDespesa,'0.0.00.00.00.00.00 - NÃO SE APLICA' AS dsDetalhadaNaturezaDespesa union "
                            + " select cdNaturezaDespesa, cdNaturezaDespesa + '- '+ upper( dsDetalhadaNaturezaDespesa) as dsDetalhadaNaturezaDespesa  "
                            + " from " + nomeBD_CPE + "..DATAVIEW_DESPESA "
-                           + " where cdNaturezaDespesa in(select cdNaturezaDespesa from A15_CPE2015..MOVIMENTO) "
+                           + " where cdNaturezaDespesa in(select cdNaturezaDespesa from "+nomeBD_CPE+"..MOVIMENTO) "
                            + " group by cdNaturezaDespesa,dsDetalhadaNaturezaDespesa";
                            
 
@@ -173,7 +173,7 @@ namespace IA_PA2015.forms
             try
             {
                 String sql = "select 0 as cdContaContabil, '0 Não se Aplica' as conta union "
-                            + "select cdContaContabil, cdNivelContabil as conta from "+nomeBD_PPA+"..PPAPlanoConta  "
+                            + "select cdContaContabil, cdNivelContabil +' - '+ dsConta as conta from " + nomeBD_CPE + "..DATAVIEW_CONTA_CONTABIL  "
                             + " where cdContaContabil in(select cdContaContabil from "+nomeBD_CPE+"..MOVIMENTO where YEAR(dtMovimento) = "+nrAno+") "
                             + "order by conta ";
 
@@ -277,6 +277,7 @@ namespace IA_PA2015.forms
                 cbEvento.DisplayMember = "ds_evento";
                 cbEvento.ValueMember = "cd_evento";
 
+                
                 getContaContabil(nrAno);
 
                 listaPareados();
@@ -369,13 +370,45 @@ namespace IA_PA2015.forms
                         
                     foreach (DataRow linha in dados.Rows) {
                         paramento.IdOrgao = linha[0].ToString();
-                        gravaRegistro(paramento);
+
+                        if (ckNatureza.Checked)
+                        {
+                            paramento.IdNatureza = "0";
+                            gravaRegistro(paramento);
+                            DataTable dadosNatureza = getNaturezaDespeza();
+
+                            foreach (DataRow linhaNatureza in dadosNatureza.Rows)
+                            {
+                                paramento.IdNatureza = linhaNatureza[0].ToString();
+                                gravaRegistro(paramento);
+                            }
+                        }
+                        else
+                        {
+                            gravaRegistro(paramento);
+                        }
+
+                        
                     }
 
                 }
                 else
                 {
-                    gravaRegistro(paramento);
+                    if (ckNatureza.Checked)
+                    {
+                        paramento.IdNatureza = "0";
+                        gravaRegistro(paramento);
+                        DataTable dadosNatureza = getNaturezaDespeza();
+
+                        foreach (DataRow linha in dadosNatureza.Rows) {
+                            paramento.IdNatureza = linha[0].ToString();
+                            gravaRegistro(paramento);
+                        }
+                    }
+                    else
+                    {
+                        gravaRegistro(paramento);
+                    }
                 }
                 listaPareados();
                 MessageExcept.messageFacede("Registro(s) gravado(s).", 2);

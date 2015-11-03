@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.gerarArquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,6 +43,8 @@
             this.históricoTCMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.confgurarBancoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contaPCAContaTCMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,7 +79,8 @@
             this.lançamentoNãoPAdrãoToolStripMenuItem,
             this.toolStripMenuItem1,
             this.eventoTCMToolStripMenuItem,
-            this.históricoTCMToolStripMenuItem});
+            this.históricoTCMToolStripMenuItem,
+            this.contaPCAContaTCMToolStripMenuItem});
             this.parearDadosToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("parearDadosToolStripMenuItem.Image")));
             this.parearDadosToolStripMenuItem.Name = "parearDadosToolStripMenuItem";
             this.parearDadosToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
@@ -150,6 +154,18 @@
             this.sairToolStripMenuItem.Text = "Sair";
             this.sairToolStripMenuItem.Click += new System.EventHandler(this.sairToolStripMenuItem_Click);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            // 
+            // contaPCAContaTCMToolStripMenuItem
+            // 
+            this.contaPCAContaTCMToolStripMenuItem.Name = "contaPCAContaTCMToolStripMenuItem";
+            this.contaPCAContaTCMToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.contaPCAContaTCMToolStripMenuItem.Text = "ContaPC a Conta TCM";
+            this.contaPCAContaTCMToolStripMenuItem.Click += new System.EventHandler(this.contaPCAContaTCMToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -185,6 +201,8 @@
         private System.Windows.Forms.ToolStripMenuItem empenhoVsReciboMuralToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eventoHistoricoFolhaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lançamentoNãoPAdrãoToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ToolStripMenuItem contaPCAContaTCMToolStripMenuItem;
     }
 }
 
