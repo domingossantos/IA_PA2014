@@ -19,3 +19,4 @@ Y:\git\IA_PA2014\IA_PA2014\IA_PA2014.pdb
 C:\GovBR\IPMC\IA_PA2014.exe
 C:\GovBR\IPMC\IA_PA2014.pdb
 Y:\git\IA_PA2014\IA_PA2014\obj\Debug\IA_PA2014.forms.ContaAContaForm.resources
+Y:\git\IA_PA2014\IA_PA2014\obj\Debug\IA_PA2014.forms.DuplicarPadraoForm.resources

@@ -26,7 +26,7 @@ namespace IA_PA2015.forms
             try
             {
                 String sql = "select idLancamento,dsLancamento from "+nomeBD_PPA+"..PPALancamentoPadronizado "
-                            +" where inFixa = 0 order by dsLancamento ";
+                            + " where inFixa = 0 or idLancamento in(101, 509,94,103,100,102) order by dsLancamento ";
 
                 con.abreBanco();
                 dados = con.retornarDataSet(sql);

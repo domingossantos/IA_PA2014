@@ -100,5 +100,12 @@ namespace IA_PA2015
             contaAContaForm.MdiParent = this;
             contaAContaForm.Show();
         }
+
+        private void contaLançamentoPadrãoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IA_PA2014.forms.DuplicarPadraoForm duplicarPadraoForm = new IA_PA2014.forms.DuplicarPadraoForm();
+            duplicarPadraoForm.MdiParent = this;
+            duplicarPadraoForm.Show();
+        }
     }
 }

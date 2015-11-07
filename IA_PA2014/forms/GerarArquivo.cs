@@ -201,7 +201,7 @@ namespace IA_PA2015.forms
                                      + getTipoArquivo()
                                      + "-" + Convert.ToDateTime(DateTime.Now.ToString()).ToString("ddMMyyyy") + ".txt";
 
-                String nomeArquivoApoio = @"\IA-PA-APOI-" + txAno.Text + FuncoesUteis.preencher(cbUnidadeGestora.SelectedValue.ToString(), "0", 0, 3)
+                String nomeArquivoApoio = @"\IA-PA-APOIO-" + txAno.Text + FuncoesUteis.preencher(cbUnidadeGestora.SelectedValue.ToString(), "0", 0, 3)
                                      + txCodigoMunicipio.Text + "-"
                                      + getTipoArquivo()
                                      + "-" + Convert.ToDateTime(DateTime.Now.ToString()).ToString("ddMMyyyy") + ".txt";
@@ -241,7 +241,7 @@ namespace IA_PA2015.forms
                         + FuncoesUteis.preencher(" ", " ", 0, 20) // Codigo da declaração a retificar
                         + FuncoesUteis.preencher(txCNPJResponsavel.Text, "0", 0, 14) // CNPJ do orgao responsável pela declaração
                         + FuncoesUteis.preencher(" ", " ", 0, 100)
-                        + FuncoesUteis.preencher(" ", " ", 0, 999)
+                        + FuncoesUteis.preencher(" ", " ", 0, 1002)
                         +"*";
                 arquivo.WriteLine(linha);
                 
@@ -342,8 +342,8 @@ namespace IA_PA2015.forms
                 
                 String contaContabil = "";
                 String naturezaReceitaDespesa = "";
-
                 String linhaApoio = "";
+                String linhaLancamento = "";
           
                 int seqMovimento = 0;
                 
@@ -371,7 +371,6 @@ namespace IA_PA2015.forms
                     linhaApoio += FuncoesUteis.preencher(rowMov["nrAnoLancamento"].ToString(), "0", 0, 6);
                     
                     
-                    
                     linha = "";
                     linha += "100";
                     linha += FuncoesUteis.preencher(Convert.ToString(contador), "0", 0, 10);
@@ -387,13 +386,12 @@ namespace IA_PA2015.forms
                         contaContabil = contaContabil.Substring(0, 11);
                     }
 
-                    contaContabil = ajusteConta(contaContabil, rowMov["tpOperacao"].ToString());
+                    //contaContabil = ajusteConta(contaContabil, rowMov["tpOperacao"].ToString());
 
-                    if (contador == 79) {
-                        contaContabil = contaContabil;
-                    }
+                    
 
-                    linha += contabilidade.getLancamentoPadrao(rowMov["cdUnidadeGestora"].ToString()
+                    linhaLancamento = contabilidade.getLancamentoPadrao(rowMov["cdFornecedor"].ToString()
+                                                               , rowMov["cdUnidadeGestora"].ToString()
                                                                , rowMov["cdEmenta"].ToString()
                                                                , rowMov["idLancamento"].ToString()
                                                                , rowMov["nrAnoLancamento"].ToString()
@@ -405,6 +403,11 @@ namespace IA_PA2015.forms
                                                                ,nomeBD_AUX
                                                                ,nomeBD_CPC);
 
+
+
+                    linha += linhaLancamento.Substring(0,4)
+                             + contabilidade.ajustaConta(linhaLancamento.Substring(4, 11),nomeBD_AUX)
+                             + linhaLancamento.Substring(15); 
                     linha += FuncoesUteis.preencher(FuncoesUteis.formataNumero(rowMov["vlMovimento"].ToString()), "0", 0, 15);
                     // Vinculo contábil
                     linha += FuncoesUteis.preencher("0", "0", 0, 10);
@@ -568,9 +571,9 @@ namespace IA_PA2015.forms
             cbUnidadeGestora.DisplayMember = "dsUnidadeGestora";
         }
 
+        
+
         public String ajusteConta(String conta, string op) {
-            
-             
             
             if (conta.Equals("62111000000"))
             {

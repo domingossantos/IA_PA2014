@@ -13,11 +13,12 @@ namespace IA_PA2015.modelo
         ConexaoDB conexao;
         public int numeroRegistros = 0;
 
-        public Contabilidade(String strConexao){
+        public Contabilidade(String strConexao)
+        {
             conexao = new ConexaoDB(strConexao);
         }
 
-        
+
         public DataTable getOrdenadores(String nomeBD_Auxiliar, String nomeBD_CPC)
         {
             DataTable dados = null;
@@ -48,7 +49,8 @@ namespace IA_PA2015.modelo
             {
                 throw new Exception("Erro ao selecionar ordenador.\n" + ex.Message);
             }
-            finally {
+            finally
+            {
                 conexao.fechaBanco();
             }
 
@@ -350,10 +352,12 @@ namespace IA_PA2015.modelo
             return dados;
         }
 
-        public void pareaOrdenador(String cpf, String nomeBD_AUX) {
-            try {
+        public void pareaOrdenador(String cpf, String nomeBD_AUX)
+        {
+            try
+            {
                 conexao.abreBanco();
-                String sql = "insert into "+nomeBD_AUX+"..AUX_PESSOA (cpf) values ("+cpf+")";
+                String sql = "insert into " + nomeBD_AUX + "..AUX_PESSOA (cpf) values (" + cpf + ")";
                 conexao.executaSemRetorno(sql);
             }
             catch (Exception ex)
@@ -371,7 +375,7 @@ namespace IA_PA2015.modelo
             try
             {
                 conexao.abreBanco();
-                String sql = "delete from " + nomeBD_AUX + "..AUX_PESSOA where cpf = '" + cpf.Replace(',','.') + "'";
+                String sql = "delete from " + nomeBD_AUX + "..AUX_PESSOA where cpf = '" + cpf.Replace(',', '.') + "'";
                 conexao.executaSemRetorno(sql);
             }
             catch (Exception ex)
@@ -422,7 +426,8 @@ namespace IA_PA2015.modelo
 
 
         #region Fonte de Recurso
-        public DataTable getFonteRecurso(String nmBancoCPC) {
+        public DataTable getFonteRecurso(String nmBancoCPC)
+        {
             DataTable dados = null;
             try
             {
@@ -445,17 +450,17 @@ namespace IA_PA2015.modelo
         #endregion
 
         #region Movimento
-        public DataTable getMovimento(String nmBancoAux, int tipo ,String inicio, String fim, String cdUnidadeGestora, String PPA, String CPC, String CPE )
+        public DataTable getMovimento(String nmBancoAux, int tipo, String inicio, String fim, String cdUnidadeGestora, String PPA, String CPC, String CPE)
         {
             DataTable dados = null;
             try
             {
                 StringBuilder sql = new StringBuilder();
-                
+
                 sql.Append("select * ");
                 sql.Append(" from " + nmBancoAux + "..dataview_movimento_tcm m where 1 = 1 and m.cdHistoricoPadrao in(464,465)  and m.nrSequenciaSistema > 0 ");
                 sql.Append(" and SUBSTRING(m.cdNivelContabil,1,1) not in('7','8') ");
-                
+
                 if (tipo == 1)
                 {
                     sql.Append(" \t and  (m.cdContaContabil > 0)  and MONTH(m.dtMovimento) = 01 and DAY(m.dtMovimento) = 1 \n" +
@@ -464,7 +469,8 @@ namespace IA_PA2015.modelo
                         "or m.cdNivelContabil like '5.2.2.1.1.%' \n" +
                         "or m.cdNivelContabil like '6.2.2.1.1.%') and m.cdFonteRecurso is null \n");
                 }
-                else {
+                else
+                {
                     sql.Append(" \t and  MONTH(m.dtMovimento) > = " + inicio + " and MONTH(m.dtMovimento) < =  " + fim); ;
 
                     if (!cdUnidadeGestora.Equals(""))
@@ -488,10 +494,11 @@ namespace IA_PA2015.modelo
                 conexao.fechaBanco();
             }
             return dados;
-        
+
         }
 
-        public String getReciboMural(String empenho, String ano, String nmBancoAux, String nmBancoCPE) {
+        public String getReciboMural(String empenho, String ano, String nmBancoAux, String nmBancoCPE)
+        {
             String recibo = "";
             /*
             try
@@ -522,17 +529,19 @@ namespace IA_PA2015.modelo
             return recibo;
         }
 
-        public String getLancamentoPadrao(string unidade, string ementa, string lancamento, string ano, string licitacao
+        public String getLancamentoPadrao(string fornecedor, string unidade, string ementa, string lancamento, string ano, string licitacao
                                          , string operacao, string conta, string natureza
                                          , string orgao, string nmBancoAux, string nmBancoCPC)
         {
             int origemConta = 0;
-           
-            if (licitacao == "") {
+
+            if (licitacao == "")
+            {
                 licitacao = "0";
             }
 
-            if (ementa == null) {
+            if (ementa == null)
+            {
                 ementa = "0";
             }
 
@@ -543,48 +552,66 @@ namespace IA_PA2015.modelo
                         "	from " + nmBancoAux + "..aux_paridade_conta p " +
                         "inner join " + nmBancoAux + "..AUX_LANCAMENTO_PADRAO l on p.idConjuntoLancamento = l.id where 1 = 1 ";
 
-            
+
             sql += " and l.idLancamento = " + lancamento + " and l.nrAno = " + ano;
 
-            
+
 
             if (!orgao.Equals("0"))
             {
                 sql += " and p.cdOrgao = " + orgao;
             }
-            else {
+            else
+            {
                 sql += " and p.cdOrgao = 0 ";
             }
 
-            if (!ementa.Equals("0")) {
+            if (!ementa.Equals("0"))
+            {
                 sql += " and p.cdEmenta = " + ementa;
             }
 
-            if (!licitacao.Equals("0")) { 
+            if (!licitacao.Equals("0"))
+            {
                 sql += " and p.cdTipoLicitacao = " + licitacao;
             }
 
             if (!natureza.Equals("0"))
             {
-                sql += " and p.cdNaturezaDespesa = '" + natureza +"'";
+                sql += " and p.cdNaturezaDespesa = '" + natureza + "'";
             }
-           
+
             DataTable linhas = conexao.retornarDataSet(sql.ToString());
 
             String linha = "";
-            
 
 
-            if (linhas.Rows.Count <= 0) {
-                sql = "select  p.cdEventoCredito, p.cdEventoDebito, p.cdHistoricoCredito, cdHistoricoDebito "+
+
+            if (linhas.Rows.Count <= 0)
+            {
+                sql = "select  p.cdEventoCredito, p.cdEventoDebito, p.cdHistoricoCredito, cdHistoricoDebito " +
                       ",(select h.ds_historico  from " + nmBancoAux + "..AUX_HISTORICO_TCM h where h.cd_historico = p.cdHistoricoCredito) as dsHistoricoCredito " +
                       ",(select h.ds_historico  from " + nmBancoAux + "..AUX_HISTORICO_TCM h where h.cd_historico = p.cdHistoricoDebito) as dsHistoricoDebito " +
                       "from " + nmBancoAux + "..AUX_PAREAR_NAO_PADRAO p " +
-                      "where p.idLancamento = "+lancamento+" and p.cdUnidadeGestora = "+unidade;
+                      "where p.idLancamento = " + lancamento + " and p.cdUnidadeGestora = " + unidade;
 
                 linhas = conexao.retornarDataSet(sql.ToString());
                 origemConta = 1;
             }
+
+            if (linhas.Rows.Count <= 0)
+            {
+                sql = "select p.cdEvento, p.cdHistorico, (select h.ds_historico from " + nmBancoAux + "..AUX_HISTORICO_TCM h where h.cd_historico = cdHistorico) as dsHistorico " +
+                      ",(select c.cdnivelcontabil from " + nmBancoCPC + "..CONTACONTABIL c where c.cdContaContabil = l.cdContaCredito) cdNivelCredito " +
+                      ",(select c.cdnivelcontabil from " + nmBancoCPC + "..CONTACONTABIL c where c.cdContaContabil = l.cdContaDebito) cdNivelDebito " +
+                      ",cdHistorico  from " + nmBancoAux + "..PAREAR_FOLHA_EVENTO_HISTORICO p " +
+                      "inner join " + nmBancoAux + "..AUX_LANCAMENTO_PADRAO l on p.idLancamento = l.id " +
+                      " where l.idLancamento = " + lancamento + " and l.nrAno = " + ano + " and p.cdFornecedor = " + fornecedor + " and p.cdUnidadeGestora = " + unidade;
+
+                linhas = conexao.retornarDataSet(sql.ToString());
+                origemConta = 2;
+            }
+
 
 
             if (linhas.Rows.Count > 0)
@@ -592,30 +619,59 @@ namespace IA_PA2015.modelo
                 linha = "";
                 DataRow dados = linhas.Rows[0];
 
-                linha = FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[1].ToString()).ToUpper(), " ", 1, 4);
-                
-                linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(conta), " ", 1, 11);
-                linha += operacao;
+
 
                 if (origemConta == 1)
                 {
+                    if (operacao.Equals("C"))
+                        linha = FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[0].ToString()).ToUpper(), " ", 1, 4);
+                    else
+                        linha = FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[1].ToString()).ToUpper(), " ", 1, 4);
+
+                    linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(conta), " ", 1, 11);
+                    linha += operacao;
+
                     if (operacao.Equals("C"))
                     {
                         linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[2].ToString()).ToUpper(), " ", 1, 5);
                         linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[4].ToString()).ToUpper(), " ", 1, 300);
                     }
-                    else {
+                    else
+                    {
                         linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[3].ToString()).ToUpper(), " ", 1, 5);
                         linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[5].ToString()).ToUpper(), " ", 1, 300);
                     }
                 }
-                else {
+                else if (origemConta == 2)
+                {
+
+                    linha = FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[0].ToString()).ToUpper(), " ", 1, 4);
+                    if (operacao.Equals("C"))
+                        linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[3].ToString()), " ", 1, 11);
+                    else
+                        linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[4].ToString()), " ", 1, 11);
+
+                    linha += operacao;
                     linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[1].ToString()).ToUpper(), " ", 1, 5);
                     linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[2].ToString()).ToUpper(), " ", 1, 300);
-                }                
+
+                }
+
+                else
+                {
+                    linha = FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[1].ToString()).ToUpper(), " ", 1, 4);
+                    linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(conta), " ", 1, 11);
+                    linha += operacao;
+                    linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[1].ToString()).ToUpper(), " ", 1, 5);
+                    linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[2].ToString()).ToUpper(), " ", 1, 300);
+                }
+
+
             }
-            else {
-                if (!lancamento.Equals("41") || !lancamento.Equals("47")) {
+            else
+            {
+                if (!lancamento.Equals("41") || !lancamento.Equals("47"))
+                {
                     linha = "";
                 }
                 linha = "9000";
@@ -623,7 +679,7 @@ namespace IA_PA2015.modelo
                 linha += operacao;
                 linha += "90001";
                 linha += FuncoesUteis.preencher("PELO REGISTRO DO HISTORICO DO JURISDINADO", " ", 1, 300);
-            
+
             }
 
             return linha;
@@ -631,19 +687,19 @@ namespace IA_PA2015.modelo
 
         public String getRoteiroTCM(string operacao, string fatorContabil, string contaContabil, string aux, string cpe)
         {
-            
+
             StringBuilder sql = new StringBuilder();
-            sql.Append(" select e.cd_evento, h.cd_historico, h.ds_historico from "+aux+"..aux_historico_evento_par t ");
+            sql.Append(" select e.cd_evento, h.cd_historico, h.ds_historico from " + aux + "..aux_historico_evento_par t ");
             sql.Append("inner join " + aux + "..aux_evento_tcm e on t.cd_evento_tcm = e.cd_evento ");
             sql.Append("inner join " + aux + "..aux_historico_tcm h on t.cd_historico_tcm = h.cd_historico ");
             sql.Append("where t.tp_operacao =  ");
             sql.Append("(select top 1  CASE WHEN t.cdTipoMovimento IN (461, 462, 465) THEN 'C' ELSE 'D' END  COLLATE Latin1_General_CI_AS from " + cpe + "..MOVIMENTO t ");
             sql.Append(" where t.nrControleFatoContabil = " + fatorContabil + " order by nrSequencia)");
-            sql.Append(" and t.cd_conta_contabil = (select c.cdNivelContabil from "+cpe+"..DATAVIEW_CONTA_CONTABIL c where c.cdContaContabil = ( ");
-			sql.Append("select top 1 t.cdContaContabil from "+cpe+"..MOVIMENTO t  ");
-			sql.Append(" where t.nrControleFatoContabil = 0101000028 order by nrSequencia)) ");
+            sql.Append(" and t.cd_conta_contabil = (select c.cdNivelContabil from " + cpe + "..DATAVIEW_CONTA_CONTABIL c where c.cdContaContabil = ( ");
+            sql.Append("select top 1 t.cdContaContabil from " + cpe + "..MOVIMENTO t  ");
+            sql.Append(" where t.nrControleFatoContabil = 0101000028 order by nrSequencia)) ");
             sql.Append("and t.cd_historico = (select top 1 t.cdHistoricoPadrao from " + cpe + "..MOVIMENTO t ");
-            sql.Append(" where t.nrControleFatoContabil = "+fatorContabil+" order by nrSequencia)");
+            sql.Append(" where t.nrControleFatoContabil = " + fatorContabil + " order by nrSequencia)");
 
             String linha = "";
             DataTable linhas = conexao.retornarDataSet(sql.ToString());
@@ -665,17 +721,18 @@ namespace IA_PA2015.modelo
                 linha += FuncoesUteis.preencher(dados[1].ToString(), "0", 0, 5);
                 linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(dados[2].ToString()).ToUpper(), " ", 1, 300);
             }
-            else {
+            else
+            {
                 linha = FuncoesUteis.preencher("", "0", 0, 321);
             }
 
 
             return linha;
-        } 
+        }
 
-        public String getLinhaDocLiquidacao(String nmBancoCPI,  String cdUndGestora, String dtAno, String pNrEmpenho)
+        public String getLinhaDocLiquidacao(String nmBancoCPI, String cdUndGestora, String dtAno, String pNrEmpenho)
         {
-            
+
             String linha = "";
 
             if (!pNrEmpenho.Equals(""))
@@ -683,7 +740,7 @@ namespace IA_PA2015.modelo
                 StringBuilder sql = new StringBuilder();
                 sql.Append("SELECT top 1 nrEmpenho,tpDocumento,nrSerie,nrDocumento,dtEmissaoDocto ");
                 sql.Append(",vlICMSDestacado,vlICMSRetido,nrSerieSeloSEFA,nrSeloSEFA,cdCST ");
-                sql.Append("FROM "+nmBancoCPI+"..PA_DocumentoLiquidacao where cdUnidadeGestora = " + cdUndGestora);
+                sql.Append("FROM " + nmBancoCPI + "..PA_DocumentoLiquidacao where cdUnidadeGestora = " + cdUndGestora);
                 sql.Append(" and dtAnoEmissao = " + dtAno + " and nrEmpenho = '" + pNrEmpenho + "'");
 
 
@@ -739,11 +796,12 @@ namespace IA_PA2015.modelo
 
         #region Parear Empenho Recibo
 
-        public DataTable getEmpenhos(int nrAno) {
+        public DataTable getEmpenhos(int nrAno)
+        {
             String sql = "select nrEmpenho, dtAnoEmissao,nrLicitacao, dtEmissaoEmpenho, "
                         + "nrProcessoCompra, nrContrato  from A15_CPE2015..EMPENHO "
                         + "where dtAnoEmissao = 2015";
-            
+
 
             DataTable linhas = conexao.retornarDataSet(sql);
 
@@ -779,7 +837,7 @@ namespace IA_PA2015.modelo
             {
                 conexao.abreBanco();
 
-                dados = conexao.retornarDataSet("select  * from "+nmBancoAUX+"..AUX_CONTA_A_CONTA ");
+                dados = conexao.retornarDataSet("select  * from " + nmBancoAUX + "..AUX_CONTA_A_CONTA ");
 
             }
             catch (Exception ex)
@@ -791,9 +849,11 @@ namespace IA_PA2015.modelo
             return dados;
         }
 
-        public void gravaContaAConta(String nmBancoAUX,String contaPC, String contaTC) {
-            try {
-                String sql = "insert into "+nmBancoAUX+"..aux_conta_a_conta (contaPC, contaTC) values ('" + contaPC + "','" + contaTC + "')";
+        public void gravaContaAConta(String nmBancoAUX, String contaPC, String contaTC)
+        {
+            try
+            {
+                String sql = "insert into " + nmBancoAUX + "..aux_conta_a_conta (contaPC, contaTC) values ('" + contaPC + "','" + contaTC + "')";
 
                 conexao.abreBanco();
                 conexao.executaSemRetorno(sql);
@@ -809,7 +869,7 @@ namespace IA_PA2015.modelo
         {
             try
             {
-                String sql = "delete from " + nmBancoAUX + "..aux_conta_a_conta where id = "+id;
+                String sql = "delete from " + nmBancoAUX + "..aux_conta_a_conta where id = " + id;
 
                 conexao.abreBanco();
                 conexao.executaSemRetorno(sql);
@@ -819,6 +879,99 @@ namespace IA_PA2015.modelo
                 throw new Exception("Erro ao apagar Contas");
 
             }
+        }
+
+        public DataTable getLancamentoPadraoDuplicado(String nmBancoAUX)
+        {
+            DataTable dados = null;
+            try
+            {
+                conexao.abreBanco();
+
+                dados = conexao.retornarDataSet("select  * from " + nmBancoAUX + "..AUX_DUPLICAR_LANCAMENTO ");
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao listar Contas");
+
+            }
+
+            return dados;
+        }
+
+        public void gravaLancamentoDuplicar(String nmBancoAUX, String idLancamento, String contaDebito, String contaCredito)
+        {
+            try
+            {
+                String sql = "insert into " + nmBancoAUX + "..AUX_DUPLICAR_LANCAMENTO (idLancamento,contaDebito, contaCredito) values (" + idLancamento + ",'" + contaDebito + "','" + contaCredito + "')";
+
+                conexao.abreBanco();
+                conexao.executaSemRetorno(sql);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao gravar Contas");
+
+            }
+        }
+
+        public void apagaLancamentoDuplicar(String nmBancoAUX, String id)
+        {
+            try
+            {
+                String sql = "delete from " + nmBancoAUX + "..AUX_DUPLICAR_LANCAMENTO where id = " + id;
+
+                conexao.abreBanco();
+                conexao.executaSemRetorno(sql);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao apagar Contas");
+
+            }
+        }
+
+        public DataTable getListaLancamentoPadao(String nomeBD_AUX)
+        {
+
+            DataTable dados = null;
+            try
+            {
+                String sql = "select id, dsLancamentoComp from " + nomeBD_AUX + "..aux_lancamento_padrao order by dsLancamento";
+
+                conexao.abreBanco();
+                dados = conexao.retornarDataSet(sql);
+            }
+            catch (Exception ex)
+            {
+                MessageExcept.messageFacede("Erro: \n" + ex.Message, 1);
+            }
+            finally
+            {
+                conexao.fechaBanco();
+            }
+
+            return dados;
+        }
+
+        public String ajustaConta(String conta, String nmBancoAUX)
+        {
+            
+            String sql = "";
+
+            sql = "select contaTC from "+nmBancoAUX+"..aux_conta_a_conta where contaPC = '"+conta+"'";
+
+
+            DataTable linhas = conexao.retornarDataSet(sql);
+
+            if (linhas.Rows.Count > 0)
+            {
+                DataRow dados = linhas.Rows[0];
+                conta = dados[0].ToString();
+            }
+
+            return conta;
         }
     }
 }
