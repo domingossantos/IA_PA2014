@@ -19,7 +19,7 @@ namespace IA_PA2015.modelo
         }
 
 
-        public DataTable getOrdenadores(String nomeBD_Auxiliar, String nomeBD_CPC)
+        public DataTable getOrdenadores(String cdUnidadeGestora, String nomeBD_Auxiliar, String nomeBD_CPC)
         {
             DataTable dados = null;
 
@@ -36,7 +36,7 @@ namespace IA_PA2015.modelo
                 strQuery.Append(" ,case ip.tpIdentificadorPessoa when 3 then 1 else ip.tpIdentificadorPessoa end tpIdentificadorPessoa ");
                 strQuery.Append(" ,ip.dsCargo ");
                 strQuery.Append(" FROM " + nomeBD_CPC + "..Pessoa p, " + nomeBD_CPC + "..IdentificadorPessoa ip, " + nomeBD_CPC + "..TipoIdentificadorPessoa t ");
-                strQuery.Append(" WHERE ip.cdPessoa = p.cdPessoa ");
+                strQuery.Append(" WHERE ip.cdPessoa = p.cdPessoa and ip.cdUnidadeGEstora = "+ cdUnidadeGestora);
                 strQuery.Append(" AND ip.tpIdentificadorPessoa = t.tpIdentificadorPessoa ");
                 strQuery.Append(" AND p.nrCPF in(select cpf from " + nomeBD_Auxiliar + "..AUX_PESSOA)");
                 strQuery.Append(") as tab ORDER BY nmPessoa ");

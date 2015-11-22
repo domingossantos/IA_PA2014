@@ -249,7 +249,7 @@ namespace IA_PA2015.forms
 
                 #region Ordenador/Contador
 
-                DataTable dados = contabilidade.getOrdenadores(nomeBD_AUX, nomeBD_CPC);
+                DataTable dados = contabilidade.getOrdenadores(cbUnidadeGestora.SelectedValue.ToString(), nomeBD_AUX, nomeBD_CPC);
 
                 String cpfContador = "";
                 String cpfOrdenador = "";
