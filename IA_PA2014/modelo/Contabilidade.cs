@@ -534,7 +534,8 @@ namespace IA_PA2015.modelo
                                          , string orgao, string nmBancoAux, string nmBancoCPC)
         {
             int origemConta = 0;
-
+            String linha = "";
+            /*
             if (licitacao == "")
             {
                 licitacao = "0";
@@ -583,7 +584,7 @@ namespace IA_PA2015.modelo
 
             DataTable linhas = conexao.retornarDataSet(sql.ToString());
 
-            String linha = "";
+            
 
 
 
@@ -680,6 +681,66 @@ namespace IA_PA2015.modelo
                 linha += "90001";
                 linha += FuncoesUteis.preencher("PELO REGISTRO DO HISTORICO DO JURISDINADO", " ", 1, 300);
 
+            }
+
+            */
+
+            linha = "9000";
+            linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(conta).ToUpper(), " ", 1, 11);
+            linha += operacao;
+            linha += "90001";
+            linha += FuncoesUteis.preencher("PELO REGISTRO DO HISTORICO DO JURISDINADO", " ", 1, 300);
+
+            if (conta.Equals("5.2.2.1.1.01.00.00.00.00") && operacao.Equals("D")) {
+                linha = "2000";
+                linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(conta).ToUpper(), " ", 1, 11);
+                linha += operacao;
+                linha += "20000";
+                linha += FuncoesUteis.preencher("PELO REGISTRO DA DESPESA ORCADA APROVADA PELA LEI ORCAMENTARIA ANUAL", " ", 1, 300);
+            }
+
+            if (conta.Equals("6.2.2.1.1.00.00.00.00.00") && operacao.Equals("C"))
+            {
+                linha = "2000";
+                linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(conta).ToUpper(), " ", 1, 11);
+                linha += operacao;
+                linha += "20000";
+                linha += FuncoesUteis.preencher("PELO REGISTRO DA DESPESA ORCADA APROVADA PELA LEI ORCAMENTARIA ANUAL", " ", 1, 300);
+            }
+
+            if (conta.Equals("5.2.1.1.1.00.00.00.00.00") && operacao.Equals("D"))
+            {
+                linha = "1100";
+                linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(conta).ToUpper(), " ", 1, 11);
+                linha += operacao;
+                linha += "11000";
+                linha += FuncoesUteis.preencher("PELO REGISTRO DA RECEITA ORCADA APROVADA PELA LEI ORCAMENTARIA ANUAL", " ", 1, 300);
+            }
+            if (conta.Equals("6.2.1.1.1.00.00.00.00.00") && operacao.Equals("C"))
+            {
+                linha = "1100";
+                linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(conta).ToUpper(), " ", 1, 11);
+                linha += operacao;
+                linha += "11000";
+                linha += FuncoesUteis.preencher("PELO REGISTRO DA RECEITA ORCADA APROVADA PELA LEI ORCAMENTARIA ANUAL", " ", 1, 300);
+            }
+
+
+            if (conta.Equals("6.2.1.1.1.00.00.00.00.00") && operacao.Equals("D"))
+            {
+                linha = "1101";
+                linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(conta).ToUpper(), " ", 1, 11);
+                linha += operacao;
+                linha += "11001";
+                linha += FuncoesUteis.preencher("PELO REGISTRO DA DEDUCAO DO FUNDEB APROVADA PELA LEI ORCAMENTARIA ANUAL", " ", 1, 300);
+            }
+            if (conta.Equals("5.2.1.1.2.01.01.00.00.00") && operacao.Equals("C"))
+            {
+                linha = "1101";
+                linha += FuncoesUteis.preencher(FuncoesUteis.removeAlfa(conta).ToUpper(), " ", 1, 11);
+                linha += operacao;
+                linha += "11001";
+                linha += FuncoesUteis.preencher("PELO REGISTRO DA DEDUCAO DO FUNDEB APROVADA PELA LEI ORCAMENTARIA ANUAL", " ", 1, 300);
             }
 
             return linha;

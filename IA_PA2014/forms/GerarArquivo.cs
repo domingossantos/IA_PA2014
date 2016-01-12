@@ -208,7 +208,7 @@ namespace IA_PA2015.forms
                 
 
                 String linha = "";
-                Int16 contador = 0;
+                Int16 contador = 1;
 
 
                 // Verifica a existencia do diretorio TXT
@@ -220,7 +220,7 @@ namespace IA_PA2015.forms
 
 
                 StreamWriter arquivo = new StreamWriter(pathGerarArquivo + nomeArquivo);
-                StreamWriter arquivoApoio = new StreamWriter(pathGerarArquivo + nomeArquivoApoio);
+               // StreamWriter arquivoApoio = new StreamWriter(pathGerarArquivo + nomeArquivoApoio);
 
 
                 #endregion
@@ -238,10 +238,10 @@ namespace IA_PA2015.forms
                         + getTipoArquivo()
                         + DateTime.Now.Day.ToString().PadLeft(2, '0') + DateTime.Now.Month.ToString().PadLeft(2, '0') + DateTime.Now.Year.ToString()
                         + FuncoesUteis.preencher(" ", " ", 0, 20) // Codigo da declaração
-                        + FuncoesUteis.preencher(" ", " ", 0, 20) // Codigo da declaração a retificar
-                        + FuncoesUteis.preencher(txCNPJResponsavel.Text, "0", 0, 14) // CNPJ do orgao responsável pela declaração
+                        //+ FuncoesUteis.preencher(" ", " ", 0, 20) // Codigo da declaração a retificar
+                        //+ FuncoesUteis.preencher(txCNPJResponsavel.Text, "0", 0, 14) // CNPJ do orgao responsável pela declaração
                         + FuncoesUteis.preencher(" ", " ", 0, 100)
-                        + FuncoesUteis.preencher(" ", " ", 0, 1002)
+                        + FuncoesUteis.preencher(" ", " ", 0, 860)
                         +"*";
                 arquivo.WriteLine(linha);
                 
@@ -292,7 +292,7 @@ namespace IA_PA2015.forms
                     linha += "*";
 
                     arquivo.WriteLine(linha);
-                    barraProgresso.Value = contador;
+                    barraProgresso.Value = contador - 1;
                 }
 
 
@@ -320,7 +320,7 @@ namespace IA_PA2015.forms
 
                     arquivo.WriteLine(linha);
                     contaProgresso++;
-                    barraProgresso.Value = contaProgresso;
+                    barraProgresso.Value = contaProgresso -  1;
                 }
                 #endregion
 
@@ -526,8 +526,8 @@ namespace IA_PA2015.forms
                     linha += "*";
                     contador++;
                     arquivo.WriteLine(linha);
-                    arquivoApoio.WriteLine(linhaApoio);
-                    barraProgresso.Value = seqMovimento;
+                    //arquivoApoio.WriteLine(linhaApoio);
+                    barraProgresso.Value = seqMovimento - 1;
                 }
 
                 #endregion
@@ -537,8 +537,8 @@ namespace IA_PA2015.forms
                 arquivo.Close();
                 arquivo.Dispose();
 
-                arquivoApoio.Close();
-                arquivoApoio.Dispose();
+                //arquivoApoio.Close();
+                //arquivoApoio.Dispose();
 
                 MessageExcept.messageFacede("Arquivo Gerado", 2);
             /*}
